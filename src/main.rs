@@ -100,7 +100,7 @@ fn main() {
 }
 
 fn print_usage(s: &str) {
-        println!("{} -p PATTERN [-r REPLACER] [-f FILE]", s);
+        println!("{} [-f INPUT] [-o OUTPUT]", s);
 }
 
 fn split(s: String) -> Vec<String> {
