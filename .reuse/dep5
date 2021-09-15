@@ -14,7 +14,9 @@ Copyright: 2021 zocker <zockerfreunde03.info@gmx.de>
 License: GPL-3.0-or-later
 
 Files: .gitignore
-Copyright: 2021
+Copyright: 2021 Toptal, LLC <info@toptal.com>
 License: MIT
 
-
+Files: README.md
+Copyright: 2021 zocker <zockerfreunde03.info@gmx.de>
+License: GFDL-1.3-or-later
