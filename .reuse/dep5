@@ -8,3 +8,13 @@ Source: https://github.com/z0gg3r/rpi_to_hosts
 # Files: src/*
 # Copyright: $YEAR $NAME <$CONTACT>
 # License: ...
+
+Files: Cargo.toml rustfmt.toml
+Copyright: 2021 zocker <zockerfreunde03.info@gmx.de>
+License: GPL-3.0-or-later
+
+Files: .gitignore
+Copyright: 2021
+License: MIT
+
+
