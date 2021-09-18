@@ -132,11 +132,12 @@ fn prefix(v: Vec<String>) -> Vec<String> {
         let host = String::from("0.0.0.0 ");
 
         for x in v {
-                if !x.starts_with('#') {
-                        p.push(host.clone() + &x);
-                } else {
+                dbg!(&x);
+                if x.starts_with('#') {
                         p.push(x);
-                }
+                } else if !x.is_empty() {
+                        p.push(host.clone() + &x);
+                } 
         }
 
         p
