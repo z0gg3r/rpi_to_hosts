@@ -129,11 +129,11 @@ fn combine(v: Vec<String>) -> String {
 fn prefix(v: Vec<String>) -> Vec<String> {
         let mut p: Vec<String> = vec![];
 
-        let host = String::from("0.0.0.0");
+        let host = String::from("0.0.0.0 ");
 
         for x in v {
-                if !x.starts_with("#") {
-                        p.push(host.clone() + " " + &x);
+                if !x.starts_with('#') {
+                        p.push(host.clone() + &x);
                 } else {
                         p.push(x);
                 }
