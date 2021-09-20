@@ -27,6 +27,10 @@ fn main() {
                         .long("-out")
                         .help("The file to save the modified blocklist in")
                 )
+                .arg(Arg::with_name("remove_comments")
+                        .long("-no-comments")
+                        .help("Remove comments from the file")
+                )
                 .group(ArgGroup::with_name("files")
                         .args(&["FILE", "file"])
                 )
@@ -34,7 +38,8 @@ fn main() {
 
         let file = matches.value_of("files").unwrap_or("").to_string();
         let out = matches.value_of("out").unwrap_or("").to_string();
-        
+        let no_comment = matches.is_present("remove_comments");
+
         if file.is_empty() {
                 let mut v: Vec<String> = vec![];
 
@@ -53,7 +58,7 @@ fn main() {
                         v.push(input);
                 }
 
-                v = prefix(v);
+                v = prefix(v, no_comment);
 
                 if out.is_empty() {
                         for line in v {
@@ -81,7 +86,7 @@ fn main() {
                 if !input.is_empty() {
                         let v = split(input);
 
-                        let v = prefix(v);
+                        let v = prefix(v, no_comment);
 
                         if out.is_empty() {
                                 for line in v {
@@ -126,15 +131,15 @@ fn combine(v: Vec<String>) -> String {
         s
 }
 
-fn prefix(v: Vec<String>) -> Vec<String> {
+fn prefix(v: Vec<String>, no_comment: bool) -> Vec<String> {
         let mut p: Vec<String> = vec![];
 
         let host = String::from("0.0.0.0 ");
 
         for x in v {
-                if x.starts_with('#') {
+                if x.starts_with('#') && !no_comment {
                         p.push(x);
-                } else if !x.is_empty() {
+                } else if !x.starts_with('#') && !x.is_empty() {
                         p.push(host.clone() + &x);
                 } 
         }
