@@ -2,36 +2,40 @@
 //
 // SPDX-License-Identifier: GPL-3.0-or-later
 
-use getopt::Opt;
+#[macro_use]
+extern crate clap;
+use clap::{App, Arg, ArgGroup};
 
 fn main() {
-        let args: Vec<String> = std::env::args().collect();
+        let matches = App::new(crate_name!())
+                .version(crate_version!())
+                .author(crate_authors!())
+                .about(crate_description!())
+                .arg(Arg::with_name("FILE")
+                        .takes_value(true)
+                        .help("The file containing the blocklist")
+                )
+                .arg(Arg::with_name("file")
+                        .takes_value(true)
+                        .short("f")
+                        .long("-file")
+                        .help("The file containing the blocklist")
+                )
+                .arg(Arg::with_name("out")
+                        .takes_value(true)
+                        .short("o")
+                        .long("-out")
+                        .help("The file to save the modified blocklist in")
+                )
+                .group(ArgGroup::with_name("files")
+                        .args(&["FILE", "file"])
+                )
+                .get_matches();
 
-        let mut opts = getopt::Parser::new(&args, "f:o:h");
-
-        let mut file = String::new();
-        let mut out = String::new();
-        let mut help = false;
-
-        loop {
-                match opts
-                        .next()
-                        .transpose()
-                        .expect("ERROR 3: Could not parse arguments!")
-                {
-                        None => break,
-                        Some(opt) => match opt {
-                                Opt('f', Some(arg)) => file = arg.clone(),
-                                Opt('o', Some(arg)) => out = arg.clone(),
-                                Opt('h', None) => help = true,
-                                _ => unreachable!(),
-                        },
-                }
-        }
-
-        if help {
-                print_usage(&args[0]);
-        } else if file.is_empty() {
+        let file = matches.value_of("files").unwrap_or("").to_string();
+        let out = matches.value_of("out").unwrap_or("").to_string();
+        
+        if file.is_empty() {
                 let mut v: Vec<String> = vec![];
 
                 loop {
@@ -97,10 +101,6 @@ fn main() {
                         }
                 }
         }
-}
-
-fn print_usage(s: &str) {
-        println!("{} [-f INPUT] [-o OUTPUT]", s);
 }
 
 fn split(s: String) -> Vec<String> {
